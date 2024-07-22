@@ -21,8 +21,8 @@ const App = () => {
   };
 
   const translate = async () => {
-    const { language, message , model } = formData;
-
+    const { language, message, model } = formData;
+  
     try {
       setIsLoading(true);
       const response = await openai.createChatCompletion({
@@ -34,19 +34,34 @@ const App = () => {
         temperature: 0.3,
         max_tokens: 100,
         top_p: 1,
-        frequency_penalty:0.0,
-        presence_penalty:0.0
+        frequency_penalty: 0.0,
+        presence_penalty: 0.0,
       });
-
+  
       const translatedText = response.data.choices[0].message.content.trim();
       setTranslation(translatedText);
       setIsLoading(false);
+  
+      // Send translation result to the backend
+      await fetch('http://localhost:5000/api/translations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          original_message: message,
+          translated_message: translatedText,
+          language: language,
+          model: model,
+        }),
+      });
     } catch (error) {
       console.error("Translation error:", error);
       setError("Translation failed. Please try again.");
       setIsLoading(false);
     }
   };
+  
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
