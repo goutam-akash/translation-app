@@ -4,7 +4,7 @@ import { Configuration, OpenAIApi } from "openai";
 import { BeatLoader } from "react-spinners";
 
 const App = () => {
-  const [formData, setFormData] = useState({ language: "Hindi", message: "" });
+  const [formData, setFormData] = useState({ language: "Hindi", message: "" ,model: "gpt-4"});
   const [error, setError] = useState("");
   const [showNotification, setShowNotification] = useState(false);
   const [translation, setTranslation] = useState("");
@@ -21,12 +21,12 @@ const App = () => {
   };
 
   const translate = async () => {
-    const { language, message } = formData;
+    const { language, message , model } = formData;
 
     try {
       setIsLoading(true);
       const response = await openai.createChatCompletion({
-        model: "gpt-4",
+        model: model,
         messages: [
           { role: "system", content: `You will be provided with a sentence in English, and your task is to translate it into ${language}.` },
           { role: "user", content: message },
@@ -76,6 +76,35 @@ const App = () => {
       <h1>Translation</h1>
 
       <form onSubmit={handleOnSubmit}>
+      <div className="choices">
+          <input
+            type="radio"
+            id="gpt-3.5-turbo"
+            name="model"
+            value="gpt-3.5-turbo"
+            onChange={handleInputChange}
+          />
+          <label htmlFor="gpt-3.5-turbo">gpt-3.5</label>
+
+          <input
+            type="radio"
+            id="gpt-4"
+            name="model"
+            value="gpt-4"
+            defaultChecked={formData.model === "gpt-4"}
+            onChange={handleInputChange}
+          />
+          <label htmlFor="gpt-4">gpt-4</label>
+
+          <input
+            type="radio"
+            id="gpt-4-turbo"
+            name="model"
+            value="gpt-4-turbo"
+            onChange={handleInputChange}
+          />
+          <label htmlFor="gpt-4-turbo">gpt-4-turbo</label>
+        </div>
         <div className="choices">
           <input
             type="radio"
