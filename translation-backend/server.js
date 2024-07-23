@@ -3,9 +3,8 @@ const { Pool } = require('pg');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -13,13 +12,36 @@ app.use(bodyParser.json());
 
 // Database connection
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "translations_db",
-  password: "newsecurepassword",
-  port:5432 ,
+  user: "my_postgres_g7fx_user",
+  host: "dpg-cqcnmsogph6c73d4tah0-a",
+  database: "my_postgres_g7fx",
+  password: "BSDIjY9fGQgoHn0MJAgKfs0Pc2CoH3S8",
+  port: 5432,
 });
 
+// Function to create the table if it doesn't exist
+const createTableIfNotExists = async () => {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS translations (
+      id SERIAL PRIMARY KEY,
+      original_message TEXT NOT NULL,
+      translated_message TEXT NOT NULL,
+      language VARCHAR(50) NOT NULL,
+      model VARCHAR(50) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  try {
+    await pool.query(createTableQuery);
+    console.log('Table "translations" is ready.');
+  } catch (error) {
+    console.error('Error creating table:', error);
+  }
+};
+
+// Create the table when the server starts
+createTableIfNotExists();
 
 // Route for handling POST requests
 app.post('/api/translations', async (req, res) => {

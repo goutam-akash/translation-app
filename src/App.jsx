@@ -43,7 +43,7 @@ const App = () => {
       setIsLoading(false);
   
       // Send translation result to the backend
-      await fetch('http://localhost:5000/api/translations', {
+      await fetch('https://translation-app-ooq8.onrender.com/api/translations', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
