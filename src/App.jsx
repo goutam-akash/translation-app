@@ -57,11 +57,17 @@ const App = () => {
         const genAIModel = googleGenAI.getGenerativeModel({
           model: "gemini-1.5-flash",
         });
+          const prompt = `Translate the text: ${message} into ${language}`;
 
-        const prompt = `Translate the text: ${message} into ${language}`;
+          const result = await genAIModel.generateContent(prompt);
+          const response = await result.response;
+          const text = response.text();
+          console.log(text);
+          translatedText = response.text();
+        
 
-        const result = await genAIModel.generateContent([prompt]);
-        translatedText = result.response.text;
+
+      
       } else if (model === "deepl") {
         const response = await fetch("https://api.deepl.com/v2/translate", {
           method: "POST",
