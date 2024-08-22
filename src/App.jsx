@@ -69,7 +69,7 @@ const App = () => {
 
       
       } else if (model === "deepl") {
-        const response = await fetch("https://api.deepl.com/v2/translate", {
+        const response = await fetch("https://api-free.deepl.com/v2/translate", {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -77,11 +77,13 @@ const App = () => {
           body: new URLSearchParams({
             auth_key: deeplApiKey,
             text: message,
-            target_lang: language.toUpperCase(),
+            target_lang: "FR",
           }),
         });
         const data = await response.json();
-        translatedText = data.translations[0].text;
+        translatedText = data.translations.text;
+
+        
       }
 
       setTranslation(translatedText);
