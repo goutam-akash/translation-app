@@ -8,7 +8,7 @@ const App = () => {
   const [formData, setFormData] = useState({
     language: "Hindi",
     message: "",
-    model: "gpt-4",
+    model: "gemini-1.5-flash",
   });
   const [error, setError] = useState("");
   const [showNotification, setShowNotification] = useState(false);
@@ -62,28 +62,20 @@ const App = () => {
           const result = await genAIModel.generateContent(prompt);
           const response = await result.response;
           const text = response.text();
-          console.log(text);
+          
           translatedText = response.text();
-        
-
-
       
       } else if (model === "deepl") {
-        const response = await fetch("https://api-free.deepl.com/v2/translate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            auth_key: deeplApiKey,
-            text: message,
-            target_lang: "FR",
-          }),
+        const genAIModel = googleGenAI.getGenerativeModel({
+          model: "gemini-1.5-flash",
         });
-        const data = await response.json();
-        translatedText = data.translations.text;
+          const prompt = `Translate the text: ${message} into ${language}`;
 
-        
+          const result = await genAIModel.generateContent(prompt);
+          const response = await result.response;
+          const text = response.text();
+          translatedText = response.text();
+              
       }
 
       setTranslation(translatedText);
