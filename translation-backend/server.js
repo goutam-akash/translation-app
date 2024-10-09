@@ -13,10 +13,15 @@ app.use(bodyParser.json());
 // Database connection
 const pool = new Pool({
   user: "my_postgres_mda8_user",
-  host: "dpg-cs30bn9u0jms7391lq5g-a",
+  host: "dpg-cs30bn9u0jms7391lq5g-a.oregon-postgres.render.com",
   database: "my_postgres_mda8",
   password: "viFQtpBhnVhEwyB2XZh8qXtNPNrrauTj",
   port: 5432,
+  idleTimeoutMillis: 30000,  // close idle clients after 30 seconds
+  connectionTimeoutMillis: 5000,  // wait for a maximum of 5 seconds for a connection
+  ssl: {
+    rejectUnauthorized: false // Allows self-signed certificates
+  },
 });
 
 // Function to create the table if it doesn't exist
@@ -44,7 +49,7 @@ const createTableIfNotExists = async () => {
 createTableIfNotExists();
 
 // Route for handling POST requests
-app.post('/api/translations', async (req, res) => {
+app.post('https://translation-app-ooq8.onrender.com/api/translations', async (req, res) => {
   const { original_message, translated_message, language, model } = req.body;
   if (!original_message || !translated_message || !language || !model) {
     res.status(400).json({ error: 'Missing required fields' });

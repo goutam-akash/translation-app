@@ -90,6 +90,24 @@ const App = () => {
     try {
       setIsLoading(true);
       let translatedText = "";
+      const response = await fetch("https://translation-app-ooq8.onrender.com/api/translate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            message: message,
+            toLanguage: toLanguage,
+            model: model,
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Translation API request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    translatedText = data.translatedText;
 
       if (model.startsWith("gpt")) {
         const response = await openai.createChatCompletion({
