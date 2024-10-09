@@ -32,6 +32,19 @@ const App = () => {
     "gemini-1.5-flash-002": ["Spanish", "French", "German", "Italian", "Portuguese", "Dutch", "Russian", "Chinese (Simplified)", "Japanese", "Korean", "Arabic"],
     "deepl": ["Spanish", "French", "Japanese", "German", "Italian", "Dutch", "Russian", "Chinese (Simplified)", "Polish", "Portuguese"],
   };
+  const deepLLanguageCodes = {
+    "Spanish": "ES",
+    "French": "FR",
+    "German": "DE",
+    "Italian": "IT",
+    "Dutch": "NL",
+    "Russian": "RU",
+    "Chinese (Simplified)": "ZH",
+    "Japanese": "JA",
+    "Portuguese": "PT",
+    "Polish": "PL",
+  };
+  
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,21 +52,38 @@ const App = () => {
   };
 
   const translateWithDeepL = async (text, toLang) => {
-    const response = await fetch(`https://api.deepl.com/v2/translate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        auth_key: import.meta.env.VITE_DEEPL_API_KEY, // Ensure this variable is defined
-        text: text,
-        source_lang: "EN", // Set the source language to English
-        target_lang: toLang.substring(0, 2).toUpperCase(),
-      }),
-    });
-    const data = await response.json();
-    return data.translations[0].text;
+    try {
+      const targetLangCode = deepLLanguageCodes[toLang];
+      if (!targetLangCode) {
+        throw new Error(`Unsupported language: ${toLang}`);
+      }
+  
+      const response = await fetch(`https://api-free.deepl.com/v2/translate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          auth_key: import.meta.env.VITE_DEEPL_API_KEY, // Ensure this variable is defined
+          text: text,
+          source_lang: "EN", // Fixed to English source
+          target_lang: targetLangCode, // Use the mapped language code
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`DeepL API request failed with status ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data.translations[0].text;
+    } catch (error) {
+      console.error("DeepL Translation Error:", error);
+      throw new Error("Failed to translate with DeepL. Please check the API key, language codes, or try again later.");
+    }
   };
+  
+  
 
   const translate = async () => {
     const { toLanguage, message, model } = formData;
