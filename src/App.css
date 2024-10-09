@@ -1,116 +1,189 @@
-* {
-  font-family: "Inter", sans-serif;
-  box-sizing: border-box;
-}
-
 body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff; /* Light background */
+  color: #222222; /* Dark text for contrast */
   margin: 0;
-  background: #eef5db; 
-  color: #fe5f55; 
-}
-
-h1 {
-  margin-top: 0;
-  color: #ff5733; 
-  text-align: center;
-  font-family: "Poppins", sans-serif;
+  padding: 0;
 }
 
 .container {
-  max-width: 600px;
-  margin: 32px auto;
-  background: #333333; 
-  padding: 16px 32px;
-  box-shadow: 0 4px 40px -8px rgba(0, 0, 0, 0.2);
-}
-
-.container form {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  width: 100%;
 }
 
-.container form label {
-  background: #d6d1b1; 
-  color: #fe5f55; 
-  height: 40px;
-  width: 100px;
-  display: flex;
-  border-radius: 30px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+.sidebar {
+  width: 250px;
+  background-color: #1c5d99; /* Sidebar color */
+  padding: 20px;
+  color: white;
 }
 
-.container form input[type="radio"]:checked + label {
-  background: #fe5f55; 
-  color: #fff; 
-  font-weight: bold;
+.main {
+  flex: 1;
+  padding: 20px;
+  background-color: #639fab; /* Main content background */
 }
 
-.container .choices {
-  display: flex;
-  gap: 20px;
+h1 {
+  color: #222222; /* Main heading color */
+  text-align: center; /* Center the heading */
 }
 
-.container form input[type="radio"] {
-  display: none;
+.choiceslang {
+  margin-bottom: 20px; /* Space below the choices section */
+  border: 1px solid #ccc; /* Light border for distinction */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px; /* Padding inside the choices box */
+  background-color: #fff; /* White background for contrast */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-.container textarea {
-  padding: 16px;
-  font-size: 20px;
-  height: 140px;
-  resize: none;
-  line-height: 1.7;
-  border: 1px solid #fe5f55; 
+.choiceslang label {
+  display: block; /* Make each label block to stack */
+  font-weight: bold; /* Bold font for labels */
+  margin-bottom: 5px; /* Space below labels */
 }
 
-.container button {
-  padding: 8px;
-  font-size: 20px;
+.choiceslang select {
+  width: 100%; /* Full width for select elements */
+  padding: 10px; /* Padding inside the select box */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 1em; /* Font size */
+  background-color: #f9f9f9; /* Light background for select */
+  transition: border-color 0.3s; /* Smooth border color transition */
+}
+
+.choiceslang select:hover {
+  border-color: #1c5d99; /* Change border color on hover */
+}
+
+.choiceslang select:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #1c5d99; /* Change border color when focused */
+}
+
+.model-option {
+  background-color: transparent; /* Transparent background */
+  border: none; /* No border */
+  color: white; /* White text */
+  font-size: 1.2em; /* Increased font size for better visibility */
+  padding: 10px; /* Padding for better click area */
+  text-align: left; /* Align text to the left */
+  cursor: pointer; /* Change cursor on hover */
+  width: 100%; /* Full width */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth transition */
+  position: relative; /* Positioning for the > symbol */
+}
+
+.model-option.active::after {
+  content: '>'; /* Add > symbol */
+  position: absolute; /* Position it absolutely */
+  right: 10px; /* Align it to the right */
+  font-size: 1.2em; /* Same size as the text */
+  color: white; /* Same color as the text */
+  transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.model-option:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Subtle hover effect */
+}
+
+.model-option.active {
+  background-color: rgba(255, 255, 255, 0.4); /* Active button background */
+}
+
+textarea {
+  width: 98%; /* Make both text areas the same width */
+  height: 150px; /* Increased height for consistency */
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 12px 24px; /* Increased size for the button */
+  background-color: #bbcde5; /* Button color */
+  color: #222222; /* Dark text for contrast */
+  font-size: medium;
+  width: 30%;
   border: none;
-  background: #fe5f55; 
-  color: #fff; 
+  border-radius: 4px;
   cursor: pointer;
+  display: block; /* Center the button */
+  margin: 0 auto; /* Center horizontally */
+}
+
+button:hover {
+  background-color: #1C5D99; /* Button hover color */
 }
 
 .translation {
-  padding: 12px 32px;
-  background: #fff; 
   margin-top: 20px;
-  font-size: 20px;
-  line-height: 1.7;
-  height: 140px;
-  overflow-y: scroll;
-  position: relative;
+  background-color: #fff; /* White background for translation */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 150px; /* Increased height of output area */
+  position: relative; /* To position copy button */
 }
 
-.translation .copy-btn {
-  position: absolute;
-  width: 20px;
-  top: 12px;
-  right: 12px;
-  opacity: 0.7;
+.copy-btn {
   cursor: pointer;
+  display: flex; /* Ensures the SVG icon is centered */
+  align-items: center; /* Vertically center the icon */
+  justify-content: center; /* Horizontally center the icon */
+  width: 40px; /* Set a fixed width */
+  height: 40px; /* Set a fixed height */
+  background-color: #bbcde5; /* Background color for visibility */
+  border-radius: 50%; /* Make it circular */
+  position: absolute; /* Positioning it inside translation area */
+  top: 10px;
+  right: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+  transition: background-color 0.3s; /* Add a transition effect */
 }
 
-.notification {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 100px);
-  background: #fe5f55; 
-  color: #fff; 
-  padding: 12px 24px;
-  border-radius: 30px;
-  transition: all 400ms ease;
-}
-
-.notification.active {
-  transform: translate(-50%, -30px);
+.copy-btn:hover {
+  background-color: #639fab; /* Change color on hover */
 }
 
 .error {
   color: red;
+  margin: 10px 0;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #bbcde5; /* Notification background */
+  padding: 10px;
+  border-radius: 4px;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.notification.active {
+  opacity: 1;
+}
+
+.previous-translations {
+  margin-top: 20px;
+}
+
+.previous-translations h3 {
+  font-size: 1.5em;
+}
+
+.previous-translations ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.previous-translations li {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
 }
