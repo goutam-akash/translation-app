@@ -6,7 +6,7 @@ import { BeatLoader } from "react-spinners";
 
 const App = () => {
   const [formData, setFormData] = useState({
-    language: "Hindi",
+    language: "French",
     message: "",
     model: "gemini-1.5-flash",
   });
