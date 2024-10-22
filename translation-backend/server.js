@@ -49,7 +49,7 @@ const createTableIfNotExists = async () => {
 createTableIfNotExists();
 
 // Route for handling POST requests
-app.post('https://translation-app-ooq8.onrender.com/api/translations', async (req, res) => {
+app.post('/api/translations', async (req, res) => {
   const { original_message, translated_message, language, model } = req.body;
   if (!original_message || !translated_message || !language || !model) {
     res.status(400).json({ error: 'Missing required fields' });
