@@ -1,6 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
+const { Parser } = require("json2csv");
 const cors = require('cors');
 
 const app = express();
@@ -9,6 +10,7 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
 // Database connection
 const pool = new Pool({
@@ -68,7 +70,24 @@ app.post('/api/translations', async (req, res) => {
   }
 });
 
+app.get("/api/export", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM translations"); // Modify query as needed
+    const jsonData = result.rows;
+
+    const json2csvParser = new Parser();
+    const csv = json2csvParser.parse(jsonData);
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("output_file.csv");
+    res.send(csv);
+  } catch (error) {
+    console.error("Error exporting to CSV:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
