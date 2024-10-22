@@ -50,7 +50,7 @@ const App = () => {
   };
   const exportToCSV = async () => {
     try {
-      const response = await fetch("translation-app-ooq8.onrender.com/api/export", {
+      const response = await fetch("https://translation-app-ooq8.onrender.com/api/export", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
