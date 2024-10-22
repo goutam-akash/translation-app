@@ -48,7 +48,33 @@ const App = () => {
     "Portuguese": "PT",
     "Polish": "PL",
   };
+  const exportToCSV = async () => {
+    try {
+      const response = await fetch("translation-app-ooq8.onrender.com/api/export", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to export data to CSV");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "output_file.csv"; // Specify the filename
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url); // Clean up URL object
+    } catch (error) {
+      console.error("Export error:", error);
+      setError("Failed to export data. Please try again.");
+    }
+  };
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
@@ -252,6 +278,10 @@ const App = () => {
       <div className={`notification ${showNotification ? "active" : ""}`}>
         Copied to clipboard!
       </div>
+
+      <button onClick={exportToCSV} className="export-btn">
+          Export to CSV
+        </button>
 
       
     </div>

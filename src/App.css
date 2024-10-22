@@ -187,3 +187,19 @@ button:hover {
   border-bottom: 1px solid #ccc;
   padding: 10px 0;
 }
+.export-btn {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.export-btn:hover {
+  background-color: #45a049;
+}
