@@ -167,6 +167,9 @@ const App = () => {
             translated_message: translatedText,
             language: language,
             model: model,
+            ranking: 4,
+            rating: 4,
+            classification: 'translation',
           }),
         }
       );
