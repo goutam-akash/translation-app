@@ -37,7 +37,7 @@ const createTableIfNotExists = async () => {
     model VARCHAR(50) NOT NULL,
     ranking INT DEFAULT 0,
     rating FLOAT CHECK (rating BETWEEN 0 AND 5) DEFAULT 0,
-    classification VARCHAR(50) ,
+    classification VARCHAR(50)  DEFAULT translation ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     `;
